@@ -56,6 +56,7 @@ void *escritor(void *wno) {
     printf("Escritor %d: modificou contador para %d\n",(*((int *)wno)),cnt);
     sem_post(&escr);
 
+    return 0;
 }
 
 // Função leitor
@@ -75,4 +76,6 @@ void *leitor(void *rno) {
         sem_post(&escr); // Se esse for o último leitor, irá acordar o escritor.
     }
     pthread_mutex_unlock(&mutex);
+    
+    return 0;
 }
