@@ -6,7 +6,7 @@
 
 // Funções
 void* filos(void *);
-void come(int);
+void* come(int);
 
 /* Declarando semáforos */
 
@@ -23,15 +23,16 @@ int main()
 	// Inicializar semáforo
 	sem_init(&filosofos, 0, 4);
 	
-	for(i=0;i<5;i++)
+	for(i=0;i<5;i++){
 		sem_init(&garfo[i], 0, 1);
-		
+	}
 	for(i=0;i<5;i++){
 		a[i]=i;
 		pthread_create(&tid[i], NULL, filos, (void *)&a[i]);
 	}
-	for(i=0;i<5;i++)
+	for(i=0;i<5;i++){
 		pthread_join(tid[i], NULL);
+	}
 }
 
 void* filos(void * num)
@@ -42,8 +43,8 @@ void* filos(void * num)
 	sem_wait(&garfo[fil]);
 	sem_wait(&garfo[(fil+1)%5]);
 
-	come(fil);
 	sleep(2);
+	come(fil);
 	printf("Filósofo %d terminou de comer\n", fil);
 
 	sem_post(&garfo[(fil+1)%5]);
@@ -53,7 +54,9 @@ void* filos(void * num)
     return 0;
 }
 
-void come(int fil)
+void* come(int fil)
 {
+	sleep(1);
 	printf("Filósofo %d está comendo\n",fil);
+	return 0;
 }
